@@ -9,6 +9,7 @@ import { Call, useStreamVideoClient } from "@stream-io/video-react-sdk"
 import { useToast } from "@/hooks/use-toast"
 import { Textarea } from "./ui/textarea"
 import ReactDatePicker from 'react-datepicker';
+import { Input } from "./ui/input"
 
 const MeetingTypeList = () => {
     const router = useRouter(); // For navigating between pages
@@ -172,6 +173,22 @@ const MeetingTypeList = () => {
                 buttonText="Start Meeting" // Button text
                 handleClick={createMeeting} // Start meeting instantly
             />
+
+            {/* Modal for Joining a meeting */}
+            <MeetingModal
+                isOpen={meetingState === 'isJoiningMeeting'} // Open if instant meeting selected
+                onClose={() => setMeetingState(undefined)} // Close modal
+                title="Paste the link here" // Modal title
+                className="text-center"
+                buttonText="Join Meeting" // Button text
+                handleClick={() => router.push(values.link)} // Start meeting instantly
+            >
+                <Input 
+                    placeholder="Meeting Link"
+                    className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    onChange={(e) => setValues({ ...values, link:e.target.value })}
+                />
+            </MeetingModal>
         </section>
     )
 }
